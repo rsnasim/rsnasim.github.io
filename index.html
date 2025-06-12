@@ -1,82 +1,613 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akta's Ethical Hacking Portfolio</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Arial', sans-serif;
-            background-color: #0e0e0e;
-            color: #eaeaea;
-        }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            background-color: #1a1a1a;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        header a {
-            color: #00ffcc;
-            text-decoration: none;
-            margin: 0 10px;
-        }
-        .hero {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background: linear-gradient(135deg, #1f1f1f, #121212);
-            text-align: center;
-        }
-        .hero h1 {
-            font-size: 3rem;
-            color: #00ffcc;
-        }
-        .hero p {
-            margin: 10px 0;
-            font-size: 1.2rem;
-            color: #cccccc;
-        }
-        .hero a {
-            display: inline-block;
-            padding: 10px 20px;
-            margin-top: 20px;
-            background-color: #00ffcc;
-            color: #0e0e0e;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-        .hero a:hover {
-            background-color: #00d6aa;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>R S Nasim - Hacker Portfolio</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+    body {
+      margin: 0;
+      background: #000000;
+      color: #0f0;
+      font-family: 'VT323', monospace;
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    #matrix {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0;
+      pointer-events: none;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          rgba(0,255,0,0.05),
+          rgba(0,255,0,0.05) 1px,
+          transparent 2px,
+          transparent 3px
+        );
+      z-index: 10;
+      mix-blend-mode: screen;
+    }
+
+    .container {
+      display: flex;
+      flex-grow: 1;
+      z-index: 20;
+      position: relative;
+      overflow: hidden;
+      margin: 50px 20px 20px 20px;
+      gap: 20px;
+      max-height: calc(100vh - 70px);
+    }
+
+    aside.terminal {
+      width: 280px;
+      background: #001100;
+      border: 2px solid #0f0;
+      border-radius: 6px;
+      padding: 20px;
+      box-shadow:
+        0 0 15px #0f0,
+        inset 0 0 25px #0f0aa;
+      color: #0f0;
+      font-size: 14px;
+      font-family: 'VT323', monospace;
+      line-height: 1.3;
+      user-select: none;
+      overflow-y: auto;
+      max-height: 70vh;
+      position: relative;
+      flex-shrink: 0;
+    }
+    aside.terminal::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          rgba(0,255,0,0.1),
+          rgba(0,255,0,0.1) 2px,
+          transparent 3px,
+          transparent 4px
+        );
+      mix-blend-mode: screen;
+      border-radius: 4px;
+      z-index: 15;
+    }
+    .terminal .cursor {
+      display: inline-block;
+      width: 10px;
+      background: #0f0;
+      animation: blink 1s step-start 0s infinite;
+      vertical-align: bottom;
+      margin-left: 2px;
+      border-radius: 1px;
+    }
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+    .glitch {
+      animation: glitch-flicker 1.5s infinite;
+      display: inline-block;
+    }
+    @keyframes glitch-flicker {
+      0%, 20%, 40%, 60%, 80%, 100% { opacity: 1; }
+      10%, 30%, 50%, 70%, 90% { opacity: 0.5; transform: translate(1px, 0) skew(5deg); }
+    }
+
+    main {
+      flex-grow: 1;
+      background: rgba(0, 30, 0, 0.7);
+      border: 2px solid #0f0;
+      border-radius: 6px;
+      padding: 20px 30px;
+      color: #0f0;
+      font-family: 'VT323', monospace;
+      min-height: 70vh;
+      position: relative;
+      overflow-y: auto;
+      user-select: text;
+      max-width: 700px;
+    }
+    nav {
+      margin-bottom: 25px;
+    }
+    nav ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      gap: 25px;
+      font-size: 1.6rem;
+      user-select: none;
+      border-bottom: 1px solid #0f0;
+      padding-bottom: 5px;
+      flex-wrap: wrap;
+    }
+    nav ul li {
+      cursor: pointer;
+      position: relative;
+      padding-bottom: 3px;
+    }
+    nav ul li:hover,
+    nav ul li.active {
+      color: #7fff7f;
+    }
+    nav ul li.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #0f0;
+      animation: flicker-underline 1.5s infinite;
+      border-radius: 2px;
+    }
+    @keyframes flicker-underline {
+      0%, 50%, 100% { opacity: 1; }
+      25%, 75% { opacity: 0.5; }
+    }
+    section.content-section {
+      display: none;
+      font-size: 1.4rem;
+      white-space: pre-wrap;
+      line-height: 1.4;
+    }
+    section.content-section.active {
+      display: block;
+    }
+    #quote-thread {
+      max-width: 600px;
+      margin: 30px auto 40px auto;
+      font-family: 'VT323', monospace;
+      font-size: 1.2rem;
+      color: #0f0;
+      border: 2px solid #0f0;
+      padding: 15px 20px;
+      border-radius: 6px;
+      box-shadow:
+        0 0 8px #0f0,
+        inset 0 0 15px #0f0aa;
+      user-select: none;
+      min-height: 50px;
+      text-align: center;
+      transition: opacity 1s ease;
+      opacity: 1;
+      margin-left: 20px;
+    }
+
+    /* New right side real terminal */
+    aside.real-terminal {
+      width: 320px;
+      background: #000;
+      border: 2px solid #0f0;
+      border-radius: 6px;
+      box-shadow: 0 0 20px #0f0aa inset;
+      color: #0f0;
+      font-family: 'VT323', monospace;
+      font-size: 14px;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+      padding: 15px 20px;
+      overflow-y: auto;
+      max-height: 70vh;
+      position: relative;
+      user-select: text;
+      flex-shrink: 0;
+    }
+    aside.real-terminal .terminal-output {
+      flex-grow: 1;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      margin-bottom: 10px;
+    }
+    aside.real-terminal input.command-input {
+      width: 100%;
+      background: black;
+      border: none;
+      border-top: 1px solid #0f0;
+      color: #0f0;
+      font-family: 'VT323', monospace;
+      font-size: 14px;
+      padding: 10px 12px;
+      outline: none;
+    }
+    aside.real-terminal .prompt {
+      color: #0f0;
+      user-select: none;
+    }
+    /* Password input style */
+    aside.real-terminal input.password-input {
+      letter-spacing: 3px;
+      font-weight: bold;
+      color: #0f0;
+      background: black;
+      border: none;
+      border-top: 1px solid #0f0;
+      font-family: 'VT323', monospace;
+      font-size: 14px;
+      padding: 10px 12px;
+      outline: none;
+    }
+
+    /* RESPONSIVE STYLES */
+    @media (max-width: 1200px) {
+      main {
+        max-width: 60vw;
+      }
+      aside.terminal {
+        width: 220px;
+        font-size: 13px;
+      }
+      aside.real-terminal {
+        width: 280px;
+        font-size: 13px;
+        padding: 12px 16px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        flex-wrap: wrap;
+        margin: 20px 10px 20px 10px;
+      }
+      aside.terminal,
+      aside.real-terminal {
+        width: 100%;
+        max-height: 250px;
+        margin-bottom: 15px;
+      }
+      main {
+        max-width: 100%;
+        min-height: auto;
+        padding: 15px 20px;
+      }
+      nav ul {
+        justify-content: center;
+      }
+      nav ul li {
+        font-size: 1.4rem;
+      }
+      #quote-thread {
+        margin-left: 0;
+        max-width: 100%;
+      }
+    }
+    @media (max-width: 500px) {
+      nav ul li {
+        font-size: 1.2rem;
+        padding: 6px 8px;
+      }
+      aside.terminal,
+      aside.real-terminal {
+        font-size: 12px;
+        max-height: 200px;
+        padding: 10px 14px;
+      }
+      aside.real-terminal input.command-input,
+      aside.real-terminal input.password-input {
+        font-size: 12px;
+        padding: 8px 10px;
+      }
+      main {
+        font-size: 1.2rem;
+        padding: 10px 15px;
+      }
+      #quote-thread {
+        font-size: 1rem;
+        padding: 12px 15px;
+      }
+    }
+  </style>
 </head>
 <body>
+  <canvas id="matrix"></canvas>
 
-<header>
-    <div class="logo">
-        <a href="#">Akta's Portfolio</a>
-    </div>
-    <nav>
-        <a href="#about">About</a>
-        <a href="#skills">Skills</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-    </nav>
-</header>
+  <div class="container" role="main">
+    <aside class="terminal" aria-label="Fake hacking terminal output">
+      <div id="fake-terminal-output"></div>
+    </aside>
 
-<section class="hero">
-    <h1>Hi, I'm Akta</h1>
-    <p>Ethical Hacker | Cybersecurity Enthusiast | Problem Solver</p>
-    <a href="#about">Learn More</a>
-</section>
+    <main>
+      <nav aria-label="Main navigation menu">
+        <ul id="menu">
+          <li data-target="home" class="active" tabindex="0" role="button" aria-pressed="true">Home</li>
+          <li data-target="about" tabindex="0" role="button" aria-pressed="false">About</li>
+          <li data-target="projects" tabindex="0" role="button" aria-pressed="false">Projects</li>
+          <li data-target="contact" tabindex="0" role="button" aria-pressed="false">Contact</li>
+        </ul>
+      </nav>
+      <section id="home" class="content-section active" tabindex="0" aria-live="polite" aria-label="Home section">
+        <h2>Welcome to R S Nasim's Hacking Portfolio</h2>
+        <p>This portfolio showcases hacking projects, skills, and terminal simulations.</p>
+      </section>
+      <section id="about" class="content-section" tabindex="0" aria-live="polite" aria-label="About section">
+        <h2>About Me</h2>
+        <p>I am R S Nasim, a passionate hacker and developer. I enjoy exploring security, cryptography, and system internals.</p>
+      </section>
+      <section id="projects" class="content-section" tabindex="0" aria-live="polite" aria-label="Projects section">
+        <h2>My Projects</h2>
+        <p>Explore my hacking tools, scripts, and open-source contributions.</p>
+      </section>
+      <section id="contact" class="content-section" tabindex="0" aria-live="polite" aria-label="Contact section">
+        <h2>Contact Me</h2>
+        <p>Email: rsnasim@example.com</p>
+        <p>GitHub: github.com/rsnasim</p>
+      </section>
+      <div id="quote-thread" aria-live="polite" aria-atomic="true"></div>
+    </main>
 
+    <aside class="real-terminal" aria-label="Real Linux terminal simulation">
+      <div id="real-terminal-output" class="terminal-output" tabindex="0" aria-live="polite"></div>
+      <input
+        id="real-terminal-input"
+        class="command-input"
+        type="text"
+        autocomplete="off"
+        spellcheck="false"
+        aria-label="Terminal input"
+        autofocus
+      />
+    </aside>
+  </div>
+
+  <script>
+    // MATRIX EFFECT
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()'.split('');
+    let columns;
+
+    function setupCanvas() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+      columns = Math.floor(width / 15);
+    }
+
+    setupCanvas();
+
+    const drops = new Array(columns).fill(1);
+
+    function drawMatrix() {
+      ctx.fillStyle = 'rgba(0,0,0,0.05)';
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.fillStyle = '#0f0';
+      ctx.font = '16px VT323';
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * 15, drops[i] * 18);
+
+        if (drops[i] * 18 > height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(drawMatrix, 50);
+    window.addEventListener('resize', () => {
+      setupCanvas();
+    });
+
+    // FAKE TERMINAL OUTPUT
+    const fakeTerminalOutput = document.getElementById('fake-terminal-output');
+    const fakeLines = [
+      '[sudo] password for rsnasim:',
+      'Authenticating...',
+      'Access Granted.',
+      'Starting brute force attack...',
+      'Downloading exploit...',
+      'Uploading shell...',
+      'Privilege escalation successful.',
+      'Establishing encrypted connection...',
+      'Bypassing firewall...',
+      'Data exfiltration in progress...',
+    ];
+
+    let fakeIndex = 0;
+    function addFakeLine() {
+      if(fakeIndex >= fakeLines.length) fakeIndex = 0;
+      const line = document.createElement('div');
+      line.textContent = fakeLines[fakeIndex];
+      fakeTerminalOutput.appendChild(line);
+      fakeTerminalOutput.scrollTop = fakeTerminalOutput.scrollHeight;
+      fakeIndex++;
+    }
+    setInterval(addFakeLine, 4000);
+    addFakeLine();
+
+    // MENU TOGGLE
+    const menuItems = document.querySelectorAll('#menu li');
+    const sections = document.querySelectorAll('section.content-section');
+
+    menuItems.forEach(item => {
+      item.addEventListener('click', () => {
+        menuItems.forEach(i => {
+          i.classList.remove('active');
+          i.setAttribute('aria-pressed', 'false');
+        });
+        item.classList.add('active');
+        item.setAttribute('aria-pressed', 'true');
+
+        const target = item.getAttribute('data-target');
+        sections.forEach(section => {
+          section.classList.remove('active');
+          if(section.id === target) {
+            section.classList.add('active');
+            section.focus();
+          }
+        });
+      });
+
+      item.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          item.click();
+        }
+      });
+    });
+
+    // DYNAMIC QUOTE THREAD
+    const quotes = [
+      "The quieter you become, the more you are able to hear.",
+      "Hacking is not a crime; it’s a skill.",
+      "Stay curious, stay dangerous.",
+      "In the world of zeros and ones, truth is binary.",
+      "Decrypt your mind before decrypting data.",
+      "The best hack is no hack.",
+      "Code is poetry; exploit it wisely.",
+      "Permission is a myth.",
+    ];
+    const quoteThread = document.getElementById('quote-thread');
+
+    function showRandomQuote() {
+      const idx = Math.floor(Math.random() * quotes.length);
+      quoteThread.style.opacity = 0;
+      setTimeout(() => {
+        quoteThread.textContent = quotes[idx];
+        quoteThread.style.opacity = 1;
+      }, 800);
+    }
+
+    setInterval(showRandomQuote, 8000);
+    showRandomQuote();
+
+    // REAL TERMINAL SIMULATION
+
+    const realTerminalOutput = document.getElementById('real-terminal-output');
+    const realTerminalInput = document.getElementById('real-terminal-input');
+
+    // Fake user data
+    const validUsers = {
+      'nasim': 'hacktheplanet',
+      'root': 'toor',
+      'guest': 'guest',
+    };
+
+    let terminalState = 'login'; // 'login', 'password', 'command'
+    let currentUser = '';
+
+    function printLine(text = '') {
+      const line = document.createElement('div');
+      line.textContent = text;
+      realTerminalOutput.appendChild(line);
+      realTerminalOutput.scrollTop = realTerminalOutput.scrollHeight;
+    }
+
+    function printPrompt() {
+      if(terminalState === 'login') {
+        realTerminalInput.type = 'text';
+        realTerminalInput.value = '';
+        realTerminalInput.placeholder = 'login:';
+        realTerminalInput.setAttribute('aria-label', 'Terminal login input');
+        realTerminalInput.focus();
+      } else if(terminalState === 'password') {
+        realTerminalInput.type = 'password';
+        realTerminalInput.value = '';
+        realTerminalInput.placeholder = 'Password:';
+        realTerminalInput.setAttribute('aria-label', 'Terminal password input');
+        realTerminalInput.focus();
+      } else if(terminalState === 'command') {
+        realTerminalInput.type = 'text';
+        realTerminalInput.value = '';
+        realTerminalInput.placeholder = currentUser + '@nasim:~$';
+        realTerminalInput.setAttribute('aria-label', 'Terminal command input');
+        realTerminalInput.focus();
+      }
+    }
+
+    function processCommand(cmd) {
+      cmd = cmd.trim();
+      if(cmd === '') return;
+
+      printLine(currentUser + '@nasim:~$ ' + cmd);
+
+      const args = cmd.split(' ');
+      const baseCmd = args[0].toLowerCase();
+
+      if(baseCmd === 'help') {
+        printLine('Available commands: help, ls, whoami, date, clear, exit');
+      } else if(baseCmd === 'ls') {
+        printLine('Desktop Documents Downloads Music Pictures Videos');
+      } else if(baseCmd === 'whoami') {
+        printLine(currentUser);
+      } else if(baseCmd === 'date') {
+        printLine(new Date().toString());
+      } else if(baseCmd === 'clear') {
+        realTerminalOutput.innerHTML = '';
+      } else if(baseCmd === 'exit') {
+        printLine('logout');
+        terminalState = 'login';
+        currentUser = '';
+        printPrompt();
+        return;
+      } else {
+        printLine(baseCmd + ': command not found');
+      }
+      realTerminalOutput.scrollTop = realTerminalOutput.scrollHeight;
+    }
+
+    realTerminalInput.addEventListener('keydown', e => {
+      if(e.key === 'Enter') {
+        const input = realTerminalInput.value.trim();
+
+        if(terminalState === 'login') {
+          if(input.length === 0) {
+            printLine('');
+            printPrompt();
+          } else if(validUsers.hasOwnProperty(input.toLowerCase())) {
+            currentUser = input.toLowerCase();
+            terminalState = 'password';
+            printLine('login: ' + input);
+            printPrompt();
+          } else {
+            printLine('login: ' + input);
+            printLine('Login incorrect');
+            printPrompt();
+          }
+        } else if(terminalState === 'password') {
+          if(input === validUsers[currentUser]) {
+            printLine('Password: ********');
+            printLine('Welcome to R S Nasim\'s Linux environment, ' + currentUser + '!');
+            terminalState = 'command';
+            printPrompt();
+          } else {
+            printLine('Password: ********');
+            printLine('Login incorrect');
+            terminalState = 'login';
+            currentUser = '';
+            printPrompt();
+          }
+        } else if(terminalState === 'command') {
+          processCommand(input);
+          printPrompt();
+        }
+
+        e.preventDefault();
+      }
+    });
+
+    // Initialize prompt on load
+    printPrompt();
+  </script>
 </body>
 </html>
